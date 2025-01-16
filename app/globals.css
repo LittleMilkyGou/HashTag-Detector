@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+
+
+#searchResultPanel::-webkit-scrollbar {
+  width: 2px; 
+}
+
+#searchResultPanel::-webkit-scrollbar-track {
+  background: transparent;
+
+}
+
+#searchResultPanel::-webkit-scrollbar-thumb {
+  background: url('../public/pic/Rectangle\ 27.png') no-repeat;
+  background-size: contain;
+  border-radius: 10px;
+ 
+}
