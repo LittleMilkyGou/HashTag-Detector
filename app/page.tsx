@@ -6,7 +6,6 @@ import {
   extractHashtags,
   resizeTextareaElement,
 } from '@/helper/textareaHelper';
-import Button from '@mui/material/Button';
 import { Hashtag } from '@/interface/hashtag';
 import apiClient from '@/lib/apiClient';
 import NoteContainer from '@/components/TextAreaComponent';
@@ -15,13 +14,13 @@ export default function Publish() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const cursorPositionRef = useRef<number | null>(null);
 
-  const [isHashtagMode, setIsHashtagMode] = useState(false);
-  const [content, setContent] = useState('');
+  const [isHashtagMode, setIsHashtagMode] = useState<boolean>(false);
+  const [content, setContent] = useState<string>('');
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [matchedHashtags, setMatchedHashtags] = useState<Hashtag[]>([]);
-  const [cursorPosition, setCursorPosition] = useState(0);
-  const cursorPositionRef = useRef<number | null>(null);
+  const [cursorPosition, setCursorPosition] = useState<number>(0);
 
   useEffect(() => {
     resizeTextareaElement(textareaRef, divRef, containerRef);
@@ -94,19 +93,9 @@ export default function Publish() {
           MAX_CONTENT_LENGTH={MAX_CONTENT_LENGTH}
         />
 
-        <div className="flex items-center justify-center my-20 w-[20rem] h-[2.5rem] rounded-lg relative">
-          <Button
-            variant="contained"
-            className="text-white text-base w-[7.5rem] h-[3rem]"
-            onClick={handlePublish}
-            disabled={!content}
-          >
-            发布
-          </Button>
-        </div>
-
+        
         {/* Display Extracted Hashtags */}
-        <div className="p-2 w-full border-t-2">
+        <div className="p-2 w-fullx">
           <h3 className="text-lg font-medium text-[#434343] mb-2">提取到的标签:</h3>
           {hashtags.length > 0 ? (
             <div className="flex flex-wrap gap-2">
@@ -123,6 +112,17 @@ export default function Publish() {
             <p className="text-sm text-gray-500">未提取到标签</p>
           )}
         </div>
+
+        <div className="flex items-center justify-center my-20 w-[20rem] h-[2.5rem] rounded-lg relative">
+          <button
+            className="text-white text-base w-[7.5rem] h-[3rem] bg-blue-500 hover:bg-blue-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={handlePublish}
+            disabled={!(hashtags.length > 0)}
+          >
+            Add Tags
+          </button>
+        </div>
+
       </div>
     </div>
   );

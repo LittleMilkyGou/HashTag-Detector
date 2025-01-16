@@ -28,4 +28,5 @@ export const hashtags: Hashtag[] = [
   { tagName: "Y", tagCount: 25 },
   { tagName: "Z", tagCount: 26 },
   { tagName: "悉尼", tagCount: 26 },
+  { tagName:"小邓么么",tagCount:520}
 ];

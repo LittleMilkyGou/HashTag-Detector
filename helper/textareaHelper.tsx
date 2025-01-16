@@ -100,6 +100,7 @@ export const insertContentAtCursor = (
     const contentBeforeHash = currentContent.slice(0, lastHashIndex + 1);
     const contentAfterCursor = currentContent.slice(cursorPosition);
     const updatedContent = `${contentBeforeHash}${hashtag} ${contentAfterCursor}`;
+    
     setContent(updatedContent);
     cursorPositionRef.current = contentBeforeHash.length + hashtag.length + 1;
   } else {
