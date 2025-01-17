@@ -7,7 +7,6 @@ import {
   resizeTextareaElement,
 } from '@/helper/textareaHelper';
 import { Hashtag } from '@/interface/hashtag';
-import apiClient from '@/lib/apiClient';
 import TextAreaComponent from '@/components/TextAreaComponent';
 
 export default function Publish() {
@@ -47,31 +46,6 @@ export default function Publish() {
     }
   }, [content, cursorPosition, isHashtagMode]);
 
-  const handlePublish = async () => {
-    const formData = new FormData();
-
-    formData.append(
-      'createBlogDTO',
-      JSON.stringify({
-        Description: content,
-        Hashtags: hashtags,
-      }),
-    );
-
-    try {
-      const response = await apiClient.post('/dotnet-api/api/blog/CreateBlog', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        return;
-      }
-    } catch (error) {
-      console.error('Error during upload:', error);
-    }
-  };
 
   return (
     <div className="w-[393px] h-[90vh] mt-[30px] p-4 bg-white border border-gray-200 rounded-lg overflow-auto mx-auto">
@@ -98,8 +72,8 @@ export default function Publish() {
 
         
         {/* Display Extracted Hashtags */}
-        <div className="p-2 w-fullx">
-          <h3 className="text-lg font-medium text-grayPrimary mb-2">提取到的标签:</h3>
+        <div className="p-2 w-full mt-10 border-t-2">
+          <h3 className="text-lg font-medium text-grayPrimary mb-">提取到的标签:</h3>
           {hashtags.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {hashtags.map((hashtag, index) => (
@@ -116,16 +90,7 @@ export default function Publish() {
           )}
         </div>
 
-        <div className="flex items-center justify-center my-20 w-[20rem] h-[2.5rem] rounded-lg relative">
-          <button
-            className="text-white text-base w-[7.5rem] h-[3rem] bg-blue-500 hover:bg-blue-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handlePublish}
-            disabled={!(hashtags.length > 0)||((MAX_CONTENT_LENGTH - content.length)<0)}
-          >
-            Add Tags
-          </button>
-        </div>
-
+        
       </div>
     </div>
   );

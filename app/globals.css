@@ -39,18 +39,3 @@ body {
 }
 
 
-#searchResultPanel::-webkit-scrollbar {
-  width: 2px; 
-}
-
-#searchResultPanel::-webkit-scrollbar-track {
-  background: transparent;
-
-}
-
-#searchResultPanel::-webkit-scrollbar-thumb {
-  background: url('../public/pic/Rectangle\ 27.png') no-repeat;
-  background-size: contain;
-  border-radius: 10px;
- 
-}
