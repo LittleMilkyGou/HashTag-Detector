@@ -1,4 +1,4 @@
-# 🛠️ Features 🛠️
+# 💡App Features
 - Highlight hashtags dynamically as you type '#'.
 - Search for relevant hashtags to match your input.
 - Extract hashtags seamlessly from the text input field.
@@ -16,5 +16,3 @@ Try your own datasets by modifying `dataset/hashtagMockdata.ts`
 
 ## ⭐ Demo ⭐
 ![App Demo](public/images/demo.gif)
-
-
