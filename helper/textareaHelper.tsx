@@ -13,6 +13,7 @@ export const fetchMatchingHashtags = async (
   const textareaElement = textareaRef.current;
   if (!textareaElement) return;
 
+  // Extract the substring between current cursor position and last '#'
   const cursorPosition = textareaElement.selectionStart;
   const lastHashIndex = content.lastIndexOf('#', cursorPosition - 1);
   const hashtagSubstring = content.slice(lastHashIndex + 1, cursorPosition).trim();
@@ -27,6 +28,7 @@ export const fetchMatchingHashtags = async (
   }
 };
 
+/** Updates the content from the textarea */
 export const updateContent = (
   event: React.ChangeEvent<HTMLTextAreaElement>,
   setContent: React.Dispatch<React.SetStateAction<string>>,
@@ -34,6 +36,10 @@ export const updateContent = (
   resizeTextarea: () => void,
 ) => {
   const userInput = event.target.value;
+
+  if (userInput.length > MAX_CONTENT_LENGTH) {
+    return;
+  }
 
   const hasConsecutiveEmptyLines = /\n\s*\n\s*\n/.test(userInput);
   if (hasConsecutiveEmptyLines) {
@@ -47,22 +53,27 @@ export const updateContent = (
 };
 
 
-
+/** Inserts a new '#' at the end of text */
 export const insertHashtag = (
   currentContent: string,
   setContent: React.Dispatch<React.SetStateAction<string>>,
   textareaRef: RefObject<HTMLTextAreaElement>,
 ) => {
-  const updatedContent = currentContent + (currentContent.endsWith('\n') ? '' : '\n') + '#';
+  const newContent = currentContent + (currentContent.endsWith(' ') ? '' : ' ') + '#';
+
+  if (newContent.length > MAX_CONTENT_LENGTH) {
+    return; 
+  }
+
   if (textareaRef.current) {
     textareaRef.current.focus();
   }
-  setContent(updatedContent);
+  setContent(newContent);
 };
 
 export const extractHashtags = (content: string) => {
   const extractedHashtags = content.match(/#[\p{L}\p{N}_]+/gu) || [];
-  return extractedHashtags.map((hashtag) => hashtag.slice(1));
+  return extractedHashtags.map((hashtag:string) => hashtag.slice(1));
 };
 
 export const resizeTextareaElement = (
@@ -82,6 +93,7 @@ export const resizeTextareaElement = (
   }
 };
 
+/** Inserts selected hashtag at the current position */
 export const insertContentAtCursor = (
   hashtag: string,
   currentContent: string,
@@ -97,12 +109,15 @@ export const insertContentAtCursor = (
   const lastHashIndex = currentContent.lastIndexOf('#', cursorPosition - 1);
 
   if (lastHashIndex !== -1) {
+    //insert hashtags in the middle of text
     const contentBeforeHash = currentContent.slice(0, lastHashIndex + 1);
     const contentAfterCursor = currentContent.slice(cursorPosition);
     const updatedContent = `${contentBeforeHash}${hashtag} ${contentAfterCursor}`;
+    
     setContent(updatedContent);
     cursorPositionRef.current = contentBeforeHash.length + hashtag.length + 1;
   } else {
+    //insert hashtags at the end of text
     setContent((previousContent) => {
       cursorPositionRef.current = previousContent.length + hashtag.length + 1;
       return `${previousContent}#${hashtag}`;
@@ -113,27 +128,35 @@ export const insertContentAtCursor = (
   setIsHashtagMode(false);
 };
 
+/** 
+ * Parses text and wraps hashtags as highlighted JSX elements
+ * @returns Array of strings and JSX elements
+ */
 export const parseTextToHighlightHashtags = (text: string) => {
   const specialCharacters = ' \n!@$%^&*(),.?/{}[];\':"`~<>，。';
   const escapedSpecialCharacters = specialCharacters.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   const hashtagRegex = new RegExp(`#([^${escapedSpecialCharacters}]+)`, 'g');
 
-  const parsedContent: (string | JSX.Element)[] = [];
+  const parsedContent: (string | JSX.Element)[] = []; 
   var lastParsedIndex = 0;
-  var match;
+  var match: RegExpExecArray | null; 
 
   while ((match = hashtagRegex.exec(text)) !== null) {
+    // If there's text between the last match and the current match, add it as plain text
     if (match.index > lastParsedIndex) {
       parsedContent.push(text.slice(lastParsedIndex, match.index));
     }
+
     parsedContent.push(
       <span key={match.index} style={{ color: '#0079FF' }}>
-        #{match[1]}
+        <strong>#{match[1]}</strong>
       </span>
     );
+
     lastParsedIndex = hashtagRegex.lastIndex;
   }
 
+  // If there's remaining text after the last match, add it as plain text
   if (lastParsedIndex < text.length) {
     parsedContent.push(text.slice(lastParsedIndex));
   }
