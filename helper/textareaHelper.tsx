@@ -148,8 +148,8 @@ export const parseTextToHighlightHashtags = (text: string) => {
     }
 
     parsedContent.push(
-      <span key={match.index} style={{ color: '#0079FF' }}>
-        <strong>#{match[1]}</strong>
+      <span key={match.index} style={{ color: '#0079FF', fontWeight: 'bold',letterSpacing: '-0.4px' }}>
+        #{match[1]}
       </span>
     );
 
