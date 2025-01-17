@@ -3,7 +3,7 @@ import { Hashtag } from "@/interface/hashtag";
 export const hashtags: Hashtag[] = [
   
     {
-      "tagName": "a",
+      "tagName": "apple",
       "tagCount": 64
     },
     {
