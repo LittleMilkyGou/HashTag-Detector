@@ -58,6 +58,8 @@ export const insertHashtag = (
   currentContent: string,
   setContent: React.Dispatch<React.SetStateAction<string>>,
   textareaRef: RefObject<HTMLTextAreaElement>,
+  setIsHashtagMode: React.Dispatch<React.SetStateAction<boolean>>,
+  setCursorPosition: React.Dispatch<React.SetStateAction<number>>,
 ) => {
   const newContent = currentContent + (currentContent.endsWith(' ') ? '' : ' ') + '#';
 
@@ -68,7 +70,12 @@ export const insertHashtag = (
   if (textareaRef.current) {
     textareaRef.current.focus();
   }
+
+  const newCursorPosition = newContent.length;
+
+  setCursorPosition(newCursorPosition)
   setContent(newContent);
+  setIsHashtagMode(true);
 };
 
 export const extractHashtags = (content: string) => {
@@ -148,8 +155,8 @@ export const parseTextToHighlightHashtags = (text: string) => {
     }
 
     parsedContent.push(
-      <span key={match.index} style={{ color: '#0079FF' }}>
-        <strong>#{match[1]}</strong>
+      <span key={match.index} style={{ color: '#0079FF', fontWeight: 'bold',letterSpacing: '-0.4px' }}>
+        #{match[1]}
       </span>
     );
 

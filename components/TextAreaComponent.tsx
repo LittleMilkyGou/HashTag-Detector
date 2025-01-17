@@ -85,7 +85,14 @@ export default function TextAreaComponent({
         <div className="bg-grayLight w-[3.19rem] h-[1.5rem] flex items-center justify-center rounded-lg">
           <button
             className="text-grayDark text-xs"
-            onClick={() => insertHashtag(content, setContent, textareaRef)}
+            onClick={() => {insertHashtag(
+              content,
+              setContent, 
+              textareaRef, 
+              setIsHashtagMode,
+              setCursorPosition,
+            )}
+          }
           >
             # 话题
           </button>
