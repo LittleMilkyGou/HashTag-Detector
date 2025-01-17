@@ -32,6 +32,7 @@ export default function Publish() {
 
       // If the character before cursor is not letter, then stop fetching
       if (specialCharactersRegex.test(characterBeforeCursor)) {
+        setMatchedHashtags([]);
         setIsHashtagMode(false);
       }
 
