@@ -41,6 +41,7 @@ export default function TextAreaComponent({
       ref={containerRef}
       className="flex flex-col justify-start mt-3 relative border border-dashed border-grayDark rounded-[0.5rem] p-2 w-[20rem]"
     >
+      {/* Parsed text with highlighted hashtags for display */}
       <div className="relative">
         <div
           ref={divRef}
@@ -60,7 +61,8 @@ export default function TextAreaComponent({
             )
           )}
         </div>
-
+        
+        {/* Textarea for actual input */}
         <textarea
           ref={textareaRef}
           className="min-h-28 w-full text-transparent bg-transparent resize-none overflow-hidden focus:outline-none caret-bluePrimary absolute top-0 left-0"
@@ -91,6 +93,7 @@ export default function TextAreaComponent({
         <span className="text-grayDark">{MAX_CONTENT_LENGTH - content.length}</span>
       </div>
 
+      {/* Matched Hashtags for selection */}
       {isHashtagMode && (
         <div className="bg-[#FFFFFF] h-auto flex flex-col justify-start rounded-lg shadow-lg z-10 overflow-auto mt-2">
           {matchedHashtags.length > 0 ? (

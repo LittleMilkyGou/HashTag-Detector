@@ -31,9 +31,12 @@ export default function Publish() {
       const characterBeforeCursor = content[cursorPosition - 1];
       const specialCharactersRegex = /[ \n!@$%^&*()-=_+|,.?/{}[\];'":`~<>，。？（）【】、《》]/;
 
+      // If the character before cursor is not letter, then stop fetching
       if (specialCharactersRegex.test(characterBeforeCursor)) {
         setIsHashtagMode(false);
       }
+
+      // If the character before cursor is '#', then start fetching
       if (characterBeforeCursor === '#') {
         setMatchedHashtags([]);
         setIsHashtagMode(true);
