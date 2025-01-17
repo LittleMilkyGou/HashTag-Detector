@@ -9,7 +9,7 @@ import {
 } from '@/helper/textareaHelper';
 import { Hashtag } from '@/interface/hashtag';
 
-interface NoteContainerProps {
+interface TextAreaComponentProps {
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
   matchedHashtags: Hashtag[];
@@ -23,7 +23,7 @@ interface NoteContainerProps {
   MAX_CONTENT_LENGTH: number;
 }
 
-export default function NoteContainer({
+export default function TextAreaComponent({
   content,
   setContent,
   matchedHashtags,
@@ -35,17 +35,17 @@ export default function NoteContainer({
   cursorPositionRef,
   setCursorPosition,
   MAX_CONTENT_LENGTH,
-}: NoteContainerProps) {
+}: TextAreaComponentProps) {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col justify-start mt-3 relative border border-dashed border-[#9D9D9D] rounded-[0.5rem] p-2 w-[20rem]"
+      className="flex flex-col justify-start mt-3 relative border border-dashed border-grayDark rounded-[0.5rem] p-2 w-[20rem]"
     >
       <div className="relative">
         <div
           ref={divRef}
-          className="w-full text-black placeholder-transparent resize-none overflow-hidden focus:outline-none caret-[#0079FF]"
-          style={{ minHeight: '7rem', whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+          className="min-h-28 w-full text-black placeholder-transparent resize-none overflow-hidden focus:outline-none caret-bluePrimary"
+          style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
         >
           {parseTextToHighlightHashtags(content).map((item, index) =>
             typeof item === 'string' ? (
@@ -63,7 +63,7 @@ export default function NoteContainer({
 
         <textarea
           ref={textareaRef}
-          className="w-full text-transparent bg-transparent resize-none overflow-hidden focus:outline-none caret-[#0079FF] absolute top-0 left-0"
+          className="min-h-28 w-full text-transparent bg-transparent resize-none overflow-hidden focus:outline-none caret-bluePrimary absolute top-0 left-0"
           placeholder="请输入"
           value={content}
           onChange={(e) =>
@@ -74,22 +74,21 @@ export default function NoteContainer({
               () => resizeTextareaElement(textareaRef, divRef, containerRef),
             )
           }
+          maxLength={MAX_CONTENT_LENGTH}
           onSelect={(e) => setCursorPosition((e.target as HTMLTextAreaElement).selectionStart)}
-          style={{ minHeight: '7rem' }}
         />
-
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <div className="bg-[#EAEAEA] w-[3.19rem] h-[1.5rem] flex items-center justify-center rounded-lg">
+        <div className="bg-grayLight w-[3.19rem] h-[1.5rem] flex items-center justify-center rounded-lg">
           <button
-            className="text-[#9D9D9D] text-xs"
+            className="text-grayDark text-xs"
             onClick={() => insertHashtag(content, setContent, textareaRef)}
           >
             # 话题
           </button>
         </div>
-        <span className="text-[#9D9D9D]">{MAX_CONTENT_LENGTH - content.replace(/#/g, '').length}</span>
+        <span className="text-grayDark">{MAX_CONTENT_LENGTH - content.length}</span>
       </div>
 
       {isHashtagMode && (
@@ -110,8 +109,8 @@ export default function NoteContainer({
                   )
                 }
               >
-                <span className="text-[#4F606F]">#{hashtag.tagName}</span>
-                <span className="text-[#CCCCCC]">{hashtag.tagCount}人使用</span>
+                <span className="text-grayHover">#{hashtag.tagName}</span>
+                <span className="text-grayMuted">{hashtag.tagCount}人使用</span>
               </div>
             ))
           ) : (

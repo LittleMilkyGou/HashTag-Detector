@@ -35,6 +35,10 @@ export const updateContent = (
 ) => {
   const userInput = event.target.value;
 
+  if (userInput.length > MAX_CONTENT_LENGTH) {
+    return;
+  }
+
   const hasConsecutiveEmptyLines = /\n\s*\n\s*\n/.test(userInput);
   if (hasConsecutiveEmptyLines) {
     return;
@@ -53,11 +57,16 @@ export const insertHashtag = (
   setContent: React.Dispatch<React.SetStateAction<string>>,
   textareaRef: RefObject<HTMLTextAreaElement>,
 ) => {
-  const updatedContent = currentContent + (currentContent.endsWith('\n') ? '' : '\n') + '#';
+  const newContent = currentContent + (currentContent.endsWith('\n') ? '' : '\n') + '#';
+
+  if (newContent.length > MAX_CONTENT_LENGTH) {
+    return; 
+  }
+
   if (textareaRef.current) {
     textareaRef.current.focus();
   }
-  setContent(updatedContent);
+  setContent(newContent);
 };
 
 export const extractHashtags = (content: string) => {

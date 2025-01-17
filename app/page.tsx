@@ -8,7 +8,7 @@ import {
 } from '@/helper/textareaHelper';
 import { Hashtag } from '@/interface/hashtag';
 import apiClient from '@/lib/apiClient';
-import NoteContainer from '@/components/TextAreaComponent';
+import TextAreaComponent from '@/components/TextAreaComponent';
 
 export default function Publish() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -73,13 +73,13 @@ export default function Publish() {
   return (
     <div className="w-[393px] h-[90vh] mt-[30px] p-4 bg-white border border-gray-200 rounded-lg overflow-auto mx-auto">
       <div className="flex flex-col items-start mt-[30px] px-4">
-        <h2 className="text-2xl sm:text-2xl font-bold mb-5 sm:mb-6 text-[#434343]">创建笔记</h2>
+        <h2 className="text-2xl sm:text-2xl font-bold mb-5 sm:mb-6 text-grayPrimary">创建笔记</h2>
 
         <div className="flex justify-start mt-3">
-          <h3 className="text-[#434343]">笔记正文</h3>
+          <h3 className="text-grayPrimary">笔记正文</h3>
         </div>
 
-        <NoteContainer
+        <TextAreaComponent
           content={content}
           setContent={setContent}
           matchedHashtags={matchedHashtags}
@@ -96,7 +96,7 @@ export default function Publish() {
         
         {/* Display Extracted Hashtags */}
         <div className="p-2 w-fullx">
-          <h3 className="text-lg font-medium text-[#434343] mb-2">提取到的标签:</h3>
+          <h3 className="text-lg font-medium text-grayPrimary mb-2">提取到的标签:</h3>
           {hashtags.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {hashtags.map((hashtag, index) => (
@@ -117,7 +117,7 @@ export default function Publish() {
           <button
             className="text-white text-base w-[7.5rem] h-[3rem] bg-blue-500 hover:bg-blue-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handlePublish}
-            disabled={!(hashtags.length > 0)}
+            disabled={!(hashtags.length > 0)||((MAX_CONTENT_LENGTH - content.length)<0)}
           >
             Add Tags
           </button>
