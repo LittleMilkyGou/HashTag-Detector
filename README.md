@@ -13,15 +13,15 @@ A modern, modular React component library for hashtag detection, highlighting, a
 - **Auto-resizing Textarea** - Dynamically adjusts height based on content
 - **Character Limit** - Built-in character counting and validation
 
-## 🚀 Demo
+## ⭐ Demo
 
-Visit the [live demo](your-demo-url) to see all features in action.
+![App Demo](public/images/demo.gif)
 
 ## 📦 Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/hashtag-detector.git
+git clone https://github.com/LittleMilkyGou/HashTag-Detector.git
 
 # Navigate to project directory
 cd hashtag-detector
@@ -142,7 +142,6 @@ function CustomComponent() {
     hideSuggestions,
   } = useHashtagSuggestions(content, cursorPosition, textareaRef);
 
-  // Your custom implementation
 }
 ```
 
@@ -197,19 +196,6 @@ export const UI_TEXT = {
 };
 ```
 
-## 🧪 Testing
-
-```bash
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Generate coverage report
-npm run test:coverage
-```
-
 ## 🚀 Deployment
 
 ```bash
@@ -220,26 +206,15 @@ npm run build
 npm start
 ```
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
+## 🤝 Acknowledgments
 
 - Built with [Next.js](https://nextjs.org/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Icons from [Heroicons](https://heroicons.com/)
+- © 2025 Zeniphany Tech
 
 ## 📧 Contact
 
-Your Name - your.email@example.com
+Gary Gao - info@zeniphany.com
 
-Project Link: [https://github.com/yourusername/hashtag-detector](https://github.com/yourusername/hashtag-detector)
+Company Website: [https://zeniphany.com](https://zeniphany.com)
