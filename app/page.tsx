@@ -1,98 +1,69 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  MAX_CONTENT_LENGTH,
-  fetchMatchingHashtags,
-  extractHashtags,
-  resizeTextareaElement,
-} from '@/helper/textareaHelper';
-import { Hashtag } from '@/interface/hashtag';
-import TextAreaComponent from '@/components/TextAreaComponent';
+import React from 'react';
+import { Container } from '@/components/layout/Container';
+import { Header } from '@/components/layout/Header';
+import { HashtagEditor } from '@/components/hashtag/HashtagEditor';
+import { UI_TEXT } from '@/utils/constants';
 
-export default function Publish() {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const divRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const cursorPositionRef = useRef<number | null>(null);
+export default function HomePage() {
+  const handleContentChange = (content: string) => {
+    // Handle content changes if needed
+    console.log('Content changed:', content);
+  };
 
-  const [isHashtagMode, setIsHashtagMode] = useState<boolean>(false);
-  const [content, setContent] = useState<string>('');
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [matchedHashtags, setMatchedHashtags] = useState<Hashtag[]>([]);
-  const [cursorPosition, setCursorPosition] = useState<number>(0);
-
-  useEffect(() => {
-    resizeTextareaElement(textareaRef, divRef, containerRef);
-    const currentHashtags = extractHashtags(content);
-    setHashtags(currentHashtags);
-
-    if (cursorPosition > 0) {
-      const characterBeforeCursor = content[cursorPosition - 1];
-      const specialCharactersRegex = /[ \n!@$%^&*()-=_+|,.?/{}[\];'":`~<>，。？（）【】、《》]/;
-
-      // If the character before cursor is not letter, then stop fetching
-      if (specialCharactersRegex.test(characterBeforeCursor)) {
-        setMatchedHashtags([]);
-        setIsHashtagMode(false);
-      }
-
-      // If the character before cursor is '#', then start fetching
-      if (characterBeforeCursor === '#') {
-        setMatchedHashtags([]);
-        setIsHashtagMode(true);
-      }
-    }
-    if (isHashtagMode) {
-      fetchMatchingHashtags(content, textareaRef, setMatchedHashtags);
-    }
-  }, [content, cursorPosition, isHashtagMode]);
-
+  const handleHashtagsChange = (hashtags: string[]) => {
+    // Handle hashtag changes if needed
+    console.log('Hashtags extracted:', hashtags);
+  };
 
   return (
-    <div className="w-[393px] h-[90vh] mt-[30px] p-4 bg-white border border-gray-200 rounded-lg overflow-auto mx-auto">
-      <div className="flex flex-col items-start mt-[30px] px-4">
-        <h2 className="text-2xl sm:text-2xl font-bold mb-5 sm:mb-6 text-grayPrimary">创建笔记</h2>
-
-        <div className="flex justify-start mt-3">
-          <h3 className="text-grayPrimary">笔记正文</h3>
-        </div>
-
-        <TextAreaComponent
-          content={content}
-          setContent={setContent}
-          matchedHashtags={matchedHashtags}
-          isHashtagMode={isHashtagMode}
-          setIsHashtagMode={setIsHashtagMode}
-          textareaRef={textareaRef}
-          divRef={divRef}
-          containerRef={containerRef}
-          cursorPositionRef={cursorPositionRef}
-          setCursorPosition={setCursorPosition}
-          MAX_CONTENT_LENGTH={MAX_CONTENT_LENGTH}
-        />
-
-        
-        {/* Display Extracted Hashtags */}
-        <div className="p-2 w-full mt-10 border-t-2">
-          <h3 className="text-lg font-medium text-grayPrimary mb-">提取到的标签:</h3>
-          {hashtags.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {hashtags.map((hashtag, index) => (
-                <span
-                  key={index}
-                  className="text-sm text-white bg-blue-500 px-2 py-1 rounded-full"
-                >
-                  #{hashtag}
-                </span>
-              ))}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+        <Container maxWidth="lg">
+          <div className="relative py-12 text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-6">
+              ✨ Smart Hashtag Detection
             </div>
-          ) : (
-            <p className="text-sm text-gray-500">未提取到标签</p>
-          )}
-        </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Hashtag Detector
+            </h1>
 
-        
+          </div>
+        </Container>
       </div>
+
+      {/* Main Content */}
+      <Container maxWidth="md">
+        <div className="pb-16">
+          {/* Editor Card */}
+          <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-8 shadow-xl shadow-gray-200/50">
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                {UI_TEXT.CREATE_NOTE}
+              </h2>
+              <p className="text-gray-600">
+                Start typing and watch hashtags with intelligent hashtag highlighting, auto-completion, and extraction
+              </p>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  {UI_TEXT.NOTE_CONTENT}
+                </label>
+                <HashtagEditor
+                  onContentChange={handleContentChange}
+                  onHashtagsChange={handleHashtagsChange}
+                  showExtractedTags={true}
+                  className="w-full"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
     </div>
   );
 }
